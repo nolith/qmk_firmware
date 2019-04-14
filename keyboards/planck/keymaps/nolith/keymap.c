@@ -43,6 +43,7 @@ enum planck_keycodes {
 #define RAISE MO(_RAISE)
 #define NUMBERS TG(_NUMBERS)
 #define KC_EURO LSFT(LALT(KC_2))
+#define OSX_LOCK LCTL(LGUI(KC_Q))
 #define FN MO(_FN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -85,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* FN
  * ,-----------------------------------------------------------------------------------.
- * |      |      |      |      |      |      |      |      |UGRAVE|      |      |      |
+ * |      |      |      |      |      |      |      | LOCK |UGRAVE|      |      |      |
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |AGRAVE|      |      |      |      |      |      |EGRAVE|IGRAVE|OGRAVE|  e   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
@@ -95,10 +96,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_FN] = LAYOUT_planck_grid(
-    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, IT_UGRAVE,  XXXXXXX,  XXXXXXX, XXXXXXX,
-    XXXXXXX, IT_AGRAVE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, IT_EGRAVE, IT_IGRAVE, IT_OGRAVE, KC_EURO,
-    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OSX_LOCK, IT_UGRAVE,  XXXXXXX,  XXXXXXX, XXXXXXX,
+    XXXXXXX, IT_AGRAVE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  IT_EGRAVE, IT_IGRAVE, IT_OGRAVE, KC_EURO,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX
 ),
 
 /* Numbers
