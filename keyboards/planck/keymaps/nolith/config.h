@@ -2,13 +2,16 @@
 
 #define NO_MUSIC_MODE
 
+#define GRAVE(chr) SEND_STRING(SS_LALT("`") chr)
+
 #ifdef AUDIO_ENABLE
     #define STARTUP_SONG SONG(PLANCK_SOUND)
     // #define STARTUP_SONG SONG(NO_SOUND)
 
     #define DEFAULT_LAYER_SONGS { SONG(QWERTY_SOUND), \
                                   SONG(COLEMAK_SOUND), \
-                                  SONG(DVORAK_SOUND) \
+                                  SONG(NO_SOUND), \
+                                  SONG(NO_SOUND) \
                                 }
 #endif
 
