@@ -22,6 +22,7 @@
 enum preonic_layers {
   _QWERTY,
   _COLEMAK,
+  _FN,
   _LOWER,
   _RAISE,
   _ADJUST
@@ -32,9 +33,16 @@ enum preonic_keycodes {
   COLEMAK,
   LOWER,
   RAISE,
-  BACKLIT,
-  IT_EGRAVE
+  IT_AGRAVE,
+  IT_EGRAVE,
+  IT_IGRAVE,
+  IT_OGRAVE,
+  IT_UGRAVE
 };
+
+#define KC_EURO LSFT(LALT(KC_2))
+#define OSX_LOCK LCTL(LGUI(KC_Q))
+#define FN MO(_FN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -57,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
   KC_ESC,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_SFTENT,  \
-  BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+  FN, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
 ),
 
 /* Colemak
@@ -78,7 +86,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,  \
   KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT, \
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,  \
-  BACKLIT, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+  FN, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT  \
+),
+
+/* FN
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |             |      |      |      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      | LOCK |UGRAVE|      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |AGRAVE|      |      |      |      |      |      |EGRAVE|IGRAVE|OGRAVE|  €   |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |             |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_FN] = LAYOUT_preonic_grid(
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OSX_LOCK, IT_UGRAVE,  XXXXXXX,  XXXXXXX, XXXXXXX,
+    XXXXXXX, IT_AGRAVE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  IT_EGRAVE, IT_IGRAVE, IT_OGRAVE, KC_EURO,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX
 ),
 
 /* Lower
@@ -147,6 +176,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+void nolith_italian_accents(uint16_t keycode) {
+  switch (keycode) {
+  case IT_AGRAVE:
+    GRAVE("a");
+    break;
+  case IT_EGRAVE:
+    GRAVE("e");
+    break;
+  case IT_IGRAVE:
+    GRAVE("i");
+    break;
+  case IT_OGRAVE:
+    GRAVE("o");
+    break;
+  case IT_UGRAVE:
+    GRAVE("u");
+    break;
+  }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
         case QWERTY:
@@ -181,29 +230,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
           return false;
           break;
-        case BACKLIT:
+        case IT_AGRAVE:
+        case IT_EGRAVE:
+        case IT_IGRAVE:
+        case IT_OGRAVE:
+        case IT_UGRAVE:
           if (record->event.pressed) {
-            register_code(KC_RSFT);
-            #ifdef BACKLIGHT_ENABLE
-              backlight_step();
-            #endif
-            #ifdef __AVR__
-            PORTE &= ~(1<<6);
-            #endif
-          } else {
-            unregister_code(KC_RSFT);
-            #ifdef __AVR__
-            PORTE |= (1<<6);
-            #endif
+            nolith_italian_accents(keycode);
           }
           return false;
           break;
-  case IT_EGRAVE:
-    if (record->event.pressed) {
-      // when keycode QMKBEST is pressed
-      SEND_STRING(SS_LALT("e") "e");
-    }
-    break;
       }
     return true;
 };

@@ -3,6 +3,8 @@
 
 #include "config_common.h"
 
+#define GRAVE(chr) SEND_STRING(SS_LALT("`") chr)
+
 #ifdef AUDIO_ENABLE
     #define STARTUP_SONG SONG(PREONIC_SOUND)
     // #define STARTUP_SONG SONG(NO_SOUND)
