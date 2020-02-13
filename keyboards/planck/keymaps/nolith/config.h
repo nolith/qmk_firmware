@@ -1,7 +1,5 @@
 #pragma once
 
-#define NO_MUSIC_MODE
-
 #define GRAVE(chr) SEND_STRING(SS_LALT("`") chr)
 
 #ifdef AUDIO_ENABLE
