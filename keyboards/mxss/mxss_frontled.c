@@ -17,7 +17,7 @@
  */
 
 #include "mxss_frontled.h"
-#include "tmk_core/common/eeprom.h"
+#include "eeprom.h"
 #include "rgblight.h"
 #include "via.h"
 #include "version.h" // for QMK_BUILDDATE used in EEPROM magic
@@ -36,12 +36,12 @@ __attribute__ ((weak))
 hs_set caps_color;
 
 __attribute__ ((weak))
-size_t lc_size = sizeof(layer_colors) / sizeof(hs_set);
+size_t lc_size = ARRAY_SIZE(layer_colors);
 
 void fled_init(void) {
-    // If EEPROM config exists, load it
-    // If VIA EEPROM exists, FLED config should too
-    if (via_eeprom_is_valid()) {
+    // This checks both an EEPROM reset (from bootmagic lite, keycodes)
+    // and also firmware build date (from via_eeprom_is_valid())
+    if (eeconfig_is_enabled()) {
         fled_load_conf();
     // Else, default config
     } else {
@@ -183,7 +183,14 @@ void fled_val_increase(void)
 
     // Update stored config
     fled_update_conf();
-    rgblight_set();
+
+    // Update and set LED state
+    if (fled_mode == FLED_INDI) {
+        fled_layer_update(layer_state);
+        fled_lock_update(host_keyboard_led_state());
+    } else {
+        rgblight_set();
+    }
 }
 
 void fled_val_decrease(void)
@@ -196,7 +203,14 @@ void fled_val_decrease(void)
 
     // Update stored config
     fled_update_conf();
-    rgblight_set();
+
+    // Update and set LED state
+    if (fled_mode == FLED_INDI) {
+        fled_layer_update(layer_state);
+        fled_lock_update(host_keyboard_led_state());
+    } else {
+        rgblight_set();
+    }
 }
 
 void fled_layer_update(layer_state_t state) {
