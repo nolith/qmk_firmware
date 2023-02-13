@@ -21,16 +21,14 @@
 
 enum preonic_layers {
   _COLEMAK,
-  _FN,
   _LOWER,
   _RAISE,
-  _ADJUST
+  _ADJUST,
+  _FN
 };
 
 enum preonic_keycodes {
-  LOWER = SAFE_RANGE,
-  RAISE,
-  IT_AGRAVE,
+  IT_AGRAVE = USER00,
   IT_EGRAVE,
   IT_IGRAVE,
   IT_OGRAVE,
@@ -62,28 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,
   KC_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,    KC_H,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
   KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_K,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-  FN, KC_LCTL, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
-),
-
-/* FN
- * ,-----------------------------------------------------------------------------------.
- * |      |      |      |      |      |             |      |      |      |      |      |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |      |      |      |      | LOCK |UGRAVE|      |      |      |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |AGRAVE|      |      |      |      |      |      |EGRAVE|IGRAVE|OGRAVE|  €   |
- * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
-[_FN] = LAYOUT_preonic_grid(
-    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,
-    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OSX_LOCK, IT_UGRAVE,  XXXXXXX,  XXXXXXX, XXXXXXX,
-    XXXXXXX, IT_AGRAVE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  IT_EGRAVE, IT_IGRAVE, IT_OGRAVE, KC_EURO,
-    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,
-    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, OSX_EMOJI, OSX_EMOJI, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX
+  FN, KC_LCTL, KC_LALT, KC_LGUI, FN_MO13,   KC_SPC,  KC_SPC,  FN_MO23,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
 ),
 
 /* Lower
@@ -147,8 +124,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, MU_NEXT, AU_ON,   AU_OFF,  AG_NORM, AG_SWAP, _______, _______, _______, _______, _______,
   _______, AU_PREV, AU_NEXT, MU_ON,   MU_OFF,  MI_ON,   MI_OFF,  _______, _______, _______, _______, _______,
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
-)
+),
 
+/* FN
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |             |      |      |      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      | LOCK |UGRAVE|      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |AGRAVE|      |      |      |      |      |      |EGRAVE|IGRAVE|OGRAVE|  €   |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |             |      |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+[_FN] = LAYOUT_preonic_grid(
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OSX_LOCK, IT_UGRAVE,  XXXXXXX,  XXXXXXX, XXXXXXX,
+    XXXXXXX, IT_AGRAVE, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  IT_EGRAVE, IT_IGRAVE, IT_OGRAVE, KC_EURO,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX,
+    XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, OSX_EMOJI, OSX_EMOJI, XXXXXXX,  XXXXXXX,   XXXXXXX,   XXXXXXX,   XXXXXXX
+)
 
 };
 
@@ -174,26 +171,6 @@ void nolith_italian_accents(uint16_t keycode) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-        case LOWER:
-          if (record->event.pressed) {
-            layer_on(_LOWER);
-            update_tri_layer(_LOWER, _RAISE, _ADJUST);
-          } else {
-            layer_off(_LOWER);
-            update_tri_layer(_LOWER, _RAISE, _ADJUST);
-          }
-          return false;
-          break;
-        case RAISE:
-          if (record->event.pressed) {
-            layer_on(_RAISE);
-            update_tri_layer(_LOWER, _RAISE, _ADJUST);
-          } else {
-            layer_off(_RAISE);
-            update_tri_layer(_LOWER, _RAISE, _ADJUST);
-          }
-          return false;
-          break;
         case IT_AGRAVE:
         case IT_EGRAVE:
         case IT_IGRAVE:
@@ -284,8 +261,8 @@ void matrix_scan_user(void) {
 
 bool music_mask_user(uint16_t keycode) {
   switch (keycode) {
-    case RAISE:
-    case LOWER:
+    case FN_MO13:
+    case FN_MO23:
       return false;
     default:
       return true;
