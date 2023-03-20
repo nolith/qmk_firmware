@@ -8,6 +8,11 @@
 #include "manna-harbour_miryoku.h"
 
 
+// Workaround for https://github.com/qmk/qmk_firmware/issues/16406 by philong
+void suspend_wakeup_init_user(void) {
+    NVIC_SystemReset();
+}
+
 // Additional Features double tap guard
 
 enum {
