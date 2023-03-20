@@ -5,3 +5,6 @@
 
 #pragma once
 
+#define MIRYOKU_ALPHAS_COLEMAK
+#define MIRYOKU_CLIPBOARD_MAC
+
