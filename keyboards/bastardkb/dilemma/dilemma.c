@@ -2,6 +2,7 @@
  * Copyright 2020 Christopher Courtney <drashna@live.com> (@drashna)
  * Copyright 2021 Quentin LEBASTARD <qlebastard@gmail.com>
  * Copyright 2022 Charly Delay <charly@codesink.dev> (@0xcharly)
+ * Copyright 2023 casuanoob <casuanoob@hotmail.com> (@casuanoob)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Publicw License as published by
@@ -308,7 +309,7 @@ bool process_record_kb(uint16_t keycode, keyrecord_t* record) {
 #        endif // !NO_DILEMMA_KEYCODES
 #    endif     // POINTING_DEVICE_ENABLE
     debug_dilemma_config_to_console(&g_dilemma_config);
-    if ((keycode >= POINTER_DEFAULT_DPI_FORWARD && keycode < DILEMMA_SAFE_RANGE) || IS_MOUSEKEY(keycode)) {
+    if (IS_QK_KB(keycode) || IS_MOUSEKEY(keycode)) {
         debug_dilemma_config_to_console(&g_dilemma_config);
     }
     return true;
@@ -342,4 +343,21 @@ void keyboard_pre_init_kb(void) {
     gpio_init(GP29);
 
     keyboard_pre_init_user();
+}
+
+bool shutdown_kb(bool jump_to_bootloader) {
+    if (!shutdown_user(jump_to_bootloader)) {
+        return false;
+    }
+#ifdef RGBLIGHT_ENABLE
+    rgblight_enable_noeeprom();
+    rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
+    rgblight_setrgb(RGB_RED);
+#endif // RGBLIGHT_ENABLE
+#ifdef RGB_MATRIX_ENABLE
+    void rgb_matrix_update_pwm_buffers(void);
+    rgb_matrix_set_color_all(RGB_RED);
+    rgb_matrix_update_pwm_buffers();
+#endif // RGB_MATRIX_ENABLE
+    return true;
 }

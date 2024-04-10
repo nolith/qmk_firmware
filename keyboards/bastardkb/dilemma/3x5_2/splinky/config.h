@@ -17,12 +17,6 @@
 
 #pragma once
 
-/* Key matrix configuration. */
-#define MATRIX_ROW_PINS \
-    { GP4, GP5, GP28, GP26 }
-#define MATRIX_COL_PINS \
-    { GP8, GP9, GP7, GP6, GP27 }
-
 /* Handedness. */
 #define MASTER_RIGHT
 
@@ -33,8 +27,8 @@
 // left one, uncomment the following line.
 //#define SPLIT_HAND_PIN_LOW_IS_LEFT // High -> right, Low -> left.
 
-/* serial.c configuration (for split keyboard). */
-#define SOFT_SERIAL_PIN GP1
+/* VBUS detection. */
+#define USB_VBUS_PIN GP19
 
 /* CRC. */
 #define CRC8_USE_TABLE
@@ -43,4 +37,3 @@
 /* Reset. */
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
 #define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_LED GP17
-#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_TIMEOUT 1000U
