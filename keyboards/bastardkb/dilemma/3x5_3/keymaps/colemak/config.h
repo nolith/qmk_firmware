@@ -17,6 +17,9 @@
  */
 #pragma once
 
+// Disable circular scroll gesture
+#undef POINTING_DEVICE_GESTURES_SCROLL_ENABLE
+
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
 
 #define SPLIT_LAYER_STATE_ENABLE

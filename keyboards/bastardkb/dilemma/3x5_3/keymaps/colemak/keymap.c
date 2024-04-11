@@ -18,9 +18,6 @@
 
 #include QMK_KEYBOARD_H
 
-// Disable circular scroll gesture
-#undef POINTING_DEVICE_GESTURES_SCROLL_ENABLE
-
 enum dilemma_keymap_layers {
     LAYER_BASE = 0,
     LAYER_FUNCTION,
